@@ -10,8 +10,8 @@ function GetQueryParam(param: string): string | null {
 let canRun = true;
 async function main() {
 
-    GetQueryParam("Server") ?? (() => { alert("Proxy server address invalid. Please rescan QR code or try again later"); canRun = false });
-    GetQueryParam("AuthToken") ?? (() => { alert("Authentication token invalid. Please rescan QR code or try again later");canRun = false });
+    GetQueryParam("Server") ?? (() => { alert("Proxy server address invalid. Please rescan QR code or try again later"); canRun = false })();
+    GetQueryParam("AuthToken") ?? (() => { alert("Authentication token invalid. Please rescan QR code or try again later");canRun = false })();
 
     if(!canRun){
         return
