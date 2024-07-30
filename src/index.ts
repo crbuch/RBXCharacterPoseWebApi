@@ -1,70 +1,45 @@
-import {Pose, POSE_CONNECTIONS} from "@mediapipe/pose"
-import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+import { SetupPoseDetection, GetPoseConnections, GetPoseLankmarks } from "./BodyPose";
 
 
-const video = document.getElementById('video') as HTMLVideoElement;
-const canvas = document.getElementById('output') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d')!;
 
-async function setupCamera() {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Your browser does not support getUserMedia API");
-        return;
-    }
-
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-            video: true
-        });
-        video.srcObject = stream;
-
-        return new Promise((resolve) => {
-            video.onloadedmetadata = () => {
-                video.play();
-                resolve(video);
-            };
-        });
-    } catch (error) {
-        alert("Error accessing the camera: " + error.message);
-    }
+function GetQueryParam(param: string): string | null {
+    return (new URLSearchParams(window.location.search)).get(param)
 }
 
-function onResults(results) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (results.poseLandmarks) {
-        drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
-        drawLandmarks(ctx, results.poseLandmarks, { color: '#FF0000', lineWidth: 2 });
-    }
-}
-
+let canRun = true;
 async function main() {
-    await setupCamera();
+    await SetupPoseDetection()
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    GetQueryParam("Server") ?? (() => { alert("Proxy server address invalid. Please rescan QR code or try again later"); canRun = false });
+    GetQueryParam("AuthToken") ?? (() => { alert("Authentication token invalid. Please rescan QR code or try again later");canRun = false });
 
-    const pose = new Pose({
-        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
-    });
-
-    pose.setOptions({
-        modelComplexity: 1,
-        smoothLandmarks: true,
-        enableSegmentation: false,
-        smoothSegmentation: true,
-        minDetectionConfidence: 0.5,
-        minTrackingConfidence: 0.5
-    });
-
-    pose.onResults(onResults);
-
-    async function detectPose() {
-        await pose.send({ image: video });
-        requestAnimationFrame(detectPose);
+    if(!canRun){
+        return
     }
+    
+    const serverUrl = decodeURIComponent(GetQueryParam("Server")!)
+    const AuthenticationToken = decodeURIComponent(GetQueryParam("AuthToken")!)
 
-    detectPose();
+
+    setInterval(async function () {
+        const response = await fetch(serverUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                "PoseConnections": GetPoseConnections(),
+                "PoseLandmarks": GetPoseLankmarks(),
+                "AuthToken": AuthenticationToken
+            })
+
+        })
+
+        if (response.status !== 200) {
+            alert(response.statusText)
+        }
+
+    }, 100)
+
+
+
 }
-
-main();
+main()

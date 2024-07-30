@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && http-server dist",
-    "build": "webpack"
+    "test": "webpack --mode development && http-server",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
