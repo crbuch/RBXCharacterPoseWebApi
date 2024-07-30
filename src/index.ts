@@ -9,7 +9,6 @@ function GetQueryParam(param: string): string | null {
 
 let canRun = true;
 async function main() {
-    await SetupPoseDetection()
 
     GetQueryParam("Server") ?? (() => { alert("Proxy server address invalid. Please rescan QR code or try again later"); canRun = false });
     GetQueryParam("AuthToken") ?? (() => { alert("Authentication token invalid. Please rescan QR code or try again later");canRun = false });
@@ -17,6 +16,9 @@ async function main() {
     if(!canRun){
         return
     }
+
+    await SetupPoseDetection()
+
     
     const serverUrl = decodeURIComponent(GetQueryParam("Server")!)
     const AuthenticationToken = decodeURIComponent(GetQueryParam("AuthToken")!)
