@@ -28,6 +28,9 @@ async function main() {
         console.log(serverUrl)
         const response = await fetch(serverUrl, {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 "PoseConnections": GetPoseConnections(),
                 "PoseLandmarks": GetPoseLankmarks(),
