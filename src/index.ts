@@ -25,7 +25,6 @@ async function main() {
 
 
     setInterval(async function () {
-        console.log(serverUrl)
         const response = await fetch(serverUrl, {
             method: "POST",
             headers: {
@@ -44,7 +43,7 @@ async function main() {
             alert("Internal server error")
         }
 
-    }, 500)
+    }, 100)
 
 
 
