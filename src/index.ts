@@ -25,6 +25,7 @@ async function main() {
 
 
     setInterval(async function () {
+        console.log(serverUrl)
         const response = await fetch(serverUrl, {
             method: "POST",
             body: JSON.stringify({
@@ -35,11 +36,12 @@ async function main() {
 
         })
 
+
         if (response.status !== 200) {
             alert(response.statusText)
         }
 
-    }, 100)
+    }, 500)
 
 
 
