@@ -55,10 +55,10 @@ function onResults(results) {
 
 
 function GetPoseLankmarks(){
-    return rslt
+    return rslt || []
 }
 function GetPoseConnections(){
-    return conn
+    return conn || []
 }
 
 

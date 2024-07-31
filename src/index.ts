@@ -41,7 +41,7 @@ async function main() {
 
 
         if (response.status !== 200) {
-            alert(response.statusText)
+            alert("Internal server error")
         }
 
     }, 500)
