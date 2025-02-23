@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 
 module.exports = {
   entry: './src/index.ts', // Entry file
@@ -18,5 +20,12 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
-  mode: 'development', // Change to 'production' for production build
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html", // Use your existing HTML file
+      inject: "body", // Ensures scripts are added correctly
+    }),
+    new HtmlInlineScriptPlugin(), // Inlines the bundle.js script
+  ],
+  mode: 'production', // Change to 'production' for production build
 };

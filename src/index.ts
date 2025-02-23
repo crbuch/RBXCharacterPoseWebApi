@@ -1,4 +1,5 @@
 import { SetupPoseDetection, GetPoseConnections, GetPoseLankmarks } from "./BodyPose";
+import * as Kalidokit from "kalidokit";
 
 
 
@@ -23,6 +24,8 @@ async function main() {
     const serverUrl = decodeURIComponent(GetQueryParam("Server")!)
     const AuthenticationToken = decodeURIComponent(GetQueryParam("AuthToken")!)
 
+
+    //Kalidokit.Pose.solve()
 
     setInterval(async function () {
         const response = await fetch(serverUrl, {
@@ -49,4 +52,5 @@ async function main() {
 
 
 }
-main()
+
+main();

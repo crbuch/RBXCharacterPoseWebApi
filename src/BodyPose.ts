@@ -2,6 +2,7 @@ import {Pose, POSE_CONNECTIONS} from "@mediapipe/pose"
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 
 
+
 const video = document.getElementById('video') as HTMLVideoElement;
 const canvas = document.getElementById('output') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
@@ -28,8 +29,6 @@ async function setupCamera() {
         alert("Error accessing the camera: " + error.message);
     }
 }
-
-
 
 
 let rslt;
