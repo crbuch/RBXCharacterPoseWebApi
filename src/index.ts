@@ -25,7 +25,7 @@ async function main() {
     const AuthenticationToken = decodeURIComponent(GetQueryParam("AuthToken")!)
 
 
-    //Kalidokit.Pose.solve()
+    //Kalidokit.Pose.solve()d
 
     setInterval(async function () {
         const response = await fetch(serverUrl, {
